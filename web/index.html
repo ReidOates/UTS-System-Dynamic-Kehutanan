@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simulator dinamika akumulasi kehilangan tutupan pohon di Indonesia tahun 2001–2024.">
+  <title>Forest Dynamics | Simulator Kehilangan Tutupan Pohon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" data-page="dashboard">
+      <span class="brand-mark">F</span>
+      <span><strong>Forest Dynamics</strong><small>System Dynamics Simulator</small></span>
+    </a>
+    <div class="nav-label">MENU UTAMA</div>
+    <nav class="navigation">
+      <button class="nav-link active" data-page="dashboard"><span>◫</span> Dashboard</button>
+      <button class="nav-link" data-page="data"><span>▤</span> Data Historis</button>
+      <button class="nav-link" data-page="simulator"><span>⌁</span> Simulasi</button>
+      <button class="nav-link" data-page="comparison"><span>▥</span> Perbandingan</button>
+      <button class="nav-link" data-page="model"><span>ⓘ</span> Tentang Model</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="status-dot"></div>
+      <div><strong>Model aktif</strong><small>Periode 2001–2024</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
+      <div><div class="eyebrow">PEMODELAN DAN SIMULASI</div><div class="top-title" id="pageTitle">Dashboard</div></div>
+      <div class="top-period">INDONESIA <span>•</span> 2001—2024</div>
+    </header>
+
+    <section class="page active" id="page-dashboard">
+      <div class="hero">
+        <div class="hero-copy">
+          <div class="hero-tag">SIMULASI SISTEM DINAMIK</div>
+          <h1>Dinamika Kehilangan<br><em>Tutupan Pohon</em></h1>
+          <p>Memahami akumulasi kehilangan tutupan pohon di Indonesia melalui pendekatan stock-flow dan simulasi beberapa skenario pengurangan.</p>
+          <button class="primary-btn" data-goto="simulator">Mulai Simulasi <span>→</span></button>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div>
+          <div class="tree tree-one">♣</div><div class="tree tree-two">♣</div><div class="tree tree-three">♣</div>
+          <div class="hero-note"><span class="note-dot"></span> DATA HISTORIS · 24 TAHUN</div>
+        </div>
+      </div>
+
+      <div class="section-heading"><div><div class="eyebrow">RINGKASAN DATA</div><h2>Gambaran Umum</h2></div><span class="muted">Sumber: dataset Tree Cover Loss</span></div>
+      <div class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span>Total akumulasi historis</span><span class="stat-icon">↗</span></div><strong id="statTotal">—</strong><small>hektare · 2001–2024</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Rata-rata per tahun</span><span class="stat-icon">◷</span></div><strong id="statAverage">—</strong><small>hektare per tahun</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Kehilangan tertinggi</span><span class="stat-icon">△</span></div><strong id="statMax">—</strong><small id="statMaxYear">—</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Periode pengamatan</span><span class="stat-icon">⌑</span></div><strong>24 Tahun</strong><small>2001 sampai 2024</small></article>
+      </div>
+
+      <div class="content-grid">
+        <article class="panel chart-panel">
+          <div class="panel-heading"><div><h3>Kehilangan Tutupan Pohon Tahunan</h3><p>Perubahan nilai kehilangan setiap tahun</p></div><span class="unit-pill">HEKTARE</span></div>
+          <div class="chart-wrap"><canvas id="historicalChart"></canvas></div>
+        </article>
+        <article class="panel insight-panel">
+          <div class="eyebrow">INTI MODEL</div><h3>Stock dan Flow</h3>
+          <div class="mini-flow"><div><strong>Flow</strong><small>Kehilangan tahunan</small></div><span>→</span><div><strong>Stock</strong><small>Akumulasi kehilangan</small></div></div>
+          <p>Setiap tahun, kehilangan tutupan pohon menambah nilai akumulasi pada stock. Simulasi membandingkan kondisi baseline dengan asumsi pengurangan kehilangan tahunan.</p>
+          <button class="text-btn" data-goto="model">Pelajari model <span>→</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="page-data">
+      <div class="page-intro"><div class="eyebrow">DATA INPUT MODEL</div><h1>Data Historis</h1><p>Data kehilangan tutupan pohon Indonesia selama periode 2001–2024.</p></div>
+      <article class="panel chart-panel">
+        <div class="panel-heading"><div><h3>Tren Kehilangan Tahunan</h3><p>Nilai input yang digunakan dalam simulasi</p></div><span class="unit-pill">HEKTARE</span></div>
+        <div class="chart-wrap large"><canvas id="dataChart"></canvas></div>
+      </article>
+      <article class="panel table-panel">
+        <div class="panel-heading"><div><h3>Rincian Data</h3><p id="tableCount">24 observasi</p></div><button class="secondary-btn" id="downloadData">Unduh CSV ↓</button></div>
+        <div class="table-scroll"><table><thead><tr><th>Tahun</th><th>Kehilangan tutupan pohon (ha)</th></tr></thead><tbody id="dataTable"></tbody></table></div>
+      </article>
+    </section>
+
+    <section class="page" id="page-simulator">
+      <div class="page-intro"><div class="eyebrow">EKSPERIMEN SKENARIO</div><h1>Simulasi Model</h1><p>Ubah asumsi pengurangan kehilangan tahunan dan amati dampaknya terhadap akumulasi.</p></div>
+      <div class="sim-layout">
+        <article class="panel control-panel">
+          <div class="panel-heading"><div><h3>Pengaturan Skenario</h3><p>Atur persentase pengurangan</p></div><span class="control-symbol">⌁</span></div>
+          <label class="range-label" for="reductionRange"><span>Pengurangan kehilangan tahunan</span><strong id="rangeValue">10%</strong></label>
+          <input id="reductionRange" type="range" min="0" max="50" step="1" value="10">
+          <div class="range-ends"><span>0% · Baseline</span><span>50%</span></div>
+          <div class="preset-row"><button class="preset" data-value="0">0%</button><button class="preset selected" data-value="10">10%</button><button class="preset" data-value="20">20%</button><button class="preset" data-value="30">30%</button></div>
+          <div class="formula-box"><span>RUMUS FLOW</span><code>Flow = Historical Loss × (1 − r)</code><small>r adalah tingkat pengurangan yang dipilih.</small></div>
+          <button class="primary-btn full" id="runSimulation">Jalankan Simulasi <span>→</span></button>
+        </article>
+        <article class="panel result-panel">
+          <div class="eyebrow">HASIL SIMULASI</div><h3>Akumulasi pada akhir 2024</h3>
+          <strong class="result-number" id="simResult">—</strong><span class="result-unit">HEKTARE</span>
+          <div class="result-divider"></div>
+          <div class="result-row"><span>Baseline</span><strong id="simBaseline">—</strong></div>
+          <div class="result-row"><span>Selisih dari baseline</span><strong class="green-text" id="simDifference">—</strong></div>
+          <div class="result-row"><span>Persentase pengurangan</span><strong id="simPercent">10%</strong></div>
+          <p class="result-footnote">Hasil merupakan simulasi asumsi pada data historis, bukan prediksi atau bukti dampak kebijakan nyata.</p>
+        </article>
+      </div>
+      <article class="panel chart-panel">
+        <div class="panel-heading"><div><h3>Perubahan Akumulasi</h3><p>Perbandingan baseline dan skenario yang dipilih</p></div><span class="unit-pill">HEKTARE</span></div>
+        <div class="chart-wrap large"><canvas id="simulationChart"></canvas></div>
+      </article>
+    </section>
+
+    <section class="page" id="page-comparison">
+      <div class="page-intro"><div class="eyebrow">ANALISIS SKENARIO</div><h1>Perbandingan Skenario</h1><p>Perbandingan akumulasi kehilangan tutupan pohon pada akhir periode simulasi.</p></div>
+      <div class="stats-grid three">
+        <article class="stat-card"><div class="stat-top"><span>Baseline</span><span class="legend-dot baseline"></span></div><strong id="compareBase">—</strong><small>Tanpa pengurangan</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Pengurangan 10%</span><span class="legend-dot ten"></span></div><strong id="compare10">—</strong><small>Asumsi pengurangan 10%</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Pengurangan 20%</span><span class="legend-dot twenty"></span></div><strong id="compare20">—</strong><small>Asumsi pengurangan 20%</small></article>
+      </div>
+      <article class="panel chart-panel">
+        <div class="panel-heading"><div><h3>Kurva Akumulasi Antar-Skenario</h3><p>Akumulasi dari tahun ke tahun</p></div><span class="unit-pill">HEKTARE</span></div>
+        <div class="chart-wrap large"><canvas id="comparisonChart"></canvas></div>
+      </article>
+      <article class="panel table-panel">
+        <div class="panel-heading"><div><h3>Ringkasan Hasil</h3><p>Nilai akumulasi pada tahun 2024</p></div></div>
+        <div class="table-scroll"><table><thead><tr><th>Skenario</th><th>Akumulasi akhir (ha)</th><th>Selisih dari baseline (ha)</th></tr></thead><tbody id="comparisonTable"></tbody></table></div>
+      </article>
+    </section>
+
+    <section class="page" id="page-model">
+      <div class="page-intro"><div class="eyebrow">DOKUMENTASI</div><h1>Tentang Model</h1><p>Struktur, persamaan, asumsi, dan batasan simulasi sistem dinamik.</p></div>
+      <div class="model-grid">
+        <article class="panel model-card"><span class="model-index">01</span><div class="eyebrow">STOCK</div><h3>Akumulasi Kehilangan Tutupan Pohon</h3><p>Menyimpan total kehilangan tutupan pohon yang terakumulasi sejak awal periode simulasi.</p><span class="unit-pill">HEKTARE</span></article>
+        <article class="panel model-card"><span class="model-index">02</span><div class="eyebrow">INFLOW</div><h3>Kehilangan Tutupan Pohon Tahunan</h3><p>Menambahkan nilai kehilangan tutupan pohon setiap tahun ke dalam stock.</p><span class="unit-pill">HEKTARE/TAHUN</span></article>
+      </div>
+      <article class="panel equation-panel"><div class="eyebrow">PERSAMAAN MODEL</div><h3>Persamaan Akumulasi</h3><div class="equation">Stock(t) = Stock(t−1) + Flow(t)</div><p>Stock awal ditetapkan sebesar 0 hektare pada awal tahun 2001. Flow tahunan berasal dari data historis atau data yang telah disesuaikan dengan skenario pengurangan.</p></article>
+      <article class="panel assumptions-panel"><div class="eyebrow">ASUMSI DAN BATASAN</div><h3>Hal yang perlu diperhatikan</h3><ul>
+        <li>Periode pengamatan menggunakan data historis 2001–2024.</li>
+        <li>Stock awal ditetapkan sebesar 0 hektare untuk memulai akumulasi pada periode simulasi.</li>
+        <li>Skenario 10% dan 20% merupakan asumsi pengurangan flow tahunan.</li>
+        <li>Model belum memasukkan reforestasi, kebakaran, perubahan penggunaan lahan, atau faktor lainnya.</li>
+        <li>Akumulasi kehilangan tutupan pohon bukan ukuran luas hutan Indonesia yang tersisa dan tidak selalu sama dengan deforestasi permanen.</li>
+      </ul></article>
+    </section>
+
+    <footer><span>FOREST DYNAMICS</span><span>Simulator akademik · Data 2001–2024</span></footer>
+  </main>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
